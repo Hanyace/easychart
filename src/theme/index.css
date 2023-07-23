@@ -1,0 +1,30 @@
+/* 引入theme变量 */
+@import './darktheme.css';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+body {
+    font-size: 12px;
+    color: var(--font-color);
+    background-color: var(#1e1e1e);
+}
+
+button {
+    cursor: pointer;
+}
+
+input {
+    outline: none;
+}

@@ -1,0 +1,10 @@
+/* css变量 */
+
+:root.dark {
+    --main-color: #1e1e1e;
+    --sub-color: #2d2d2d;
+    --font-color: #fff;
+    --font-color-sub: #b1b1b1;
+    --font-color-sub2: #777;
+    --header-color: #2c2c2c;
+}

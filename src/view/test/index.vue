@@ -25,6 +25,7 @@ const sendMsg = () => {
 }
 
 const addFriend = () => {
+  console.log(user.userInfo)
   socket.emit('addFriend', {
     // userId: '5aceedd0-26de-11ee-be75-cd861896048c',
     userId: user.userInfo.userId,

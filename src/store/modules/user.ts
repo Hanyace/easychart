@@ -8,7 +8,7 @@ import { localSave, localRemove, localRead } from 'u/localStorage'
 export const useUserStore = defineStore('user', {
     state: () => ({
         token: localRead('token') || '',
-        userInfo: {} as UserInfo
+        userInfo: (localRead('userInfo') || {}) as UserInfo ,
     }),
     getters: {
 

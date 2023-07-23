@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { localRead } from './localStorage'
-import { useRouter } from 'vue-router';
-
-
-const router = useRouter();
+import router from '@/router'
 
 const request = axios.create({
     baseURL: 'http://localhost:3000',
