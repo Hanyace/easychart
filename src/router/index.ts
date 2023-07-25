@@ -5,8 +5,15 @@ const router = createRouter({
     routes: [
         {
             path: "/",
-            name: "Layout",
+            name: 'Layout',
             component: () => import('v/Layout/index.vue'),
+            children: [
+                {
+                    path: "ChatList",
+                    name: "ChatList",
+                    component: () => import('v/ChatList/index.vue')
+                }
+            ]
         },
         {
             path: "/login",
