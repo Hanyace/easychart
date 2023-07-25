@@ -1,5 +1,7 @@
 /* 引入theme变量 */
 @import './darktheme.css';
+/* 引入动画 */
+@import './animation.css';
 
 * {
     margin: 0;

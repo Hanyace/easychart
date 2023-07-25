@@ -4,6 +4,7 @@ interface CellTemplateProps {
     badge: number;
     username: string;
     avatar?: string;
+    friendId: string;
 }
 
 export {

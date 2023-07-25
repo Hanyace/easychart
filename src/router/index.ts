@@ -34,6 +34,11 @@ const router = createRouter({
             path: "/chart",
             name: "Chart",
             component: () => import('v/Chart/index.vue')
+        },
+        {
+            path: "/search",
+            name: "Search",
+            component: () => import('v/Search/index.vue')
         }
     ]
 });

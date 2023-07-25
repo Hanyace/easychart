@@ -10,5 +10,15 @@ interface UserInfo {
     status: Number,
 }
 
+interface ChatList {
+    userId: String,
+    friendId: String,
+    lastMessage: String,
+    lastTime: String,
+    messageNum: Number,
+    messageType: Number,
+    isTop?: Boolean,
+    setTopTime?: String,
+}
 
-export { UserInfo };
+export { UserInfo, ChatList };

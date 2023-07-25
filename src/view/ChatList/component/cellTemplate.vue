@@ -5,12 +5,7 @@
         <template #title>
           <div class="left">
             <!-- 头像 -->
-            <van-image
-              round
-              width="45px"
-              height="45px"
-              :src="avatar"
-            />
+            <van-image round class="avatar" :src="avatar" />
             <!-- 用户信息 -->
             <div class="userinfo">
               <div class="username">{{ username }}</div>
@@ -29,7 +24,13 @@
       </van-cell>
       <template #right>
         <van-button square style="height: 100%" type="primary" text="置顶" />
-        <van-button square style="height: 100%" type="danger" text="删除" />
+        <van-button
+          square
+          style="height: 100%"
+          type="danger"
+          @touchstart="del(friendId)"
+          text="删除"
+        />
       </template>
     </van-swipe-cell>
   </div>
@@ -38,9 +39,14 @@
 <script lang="ts" setup>
 import type { CellTemplateProps } from '@/types/cellTemplate'
 withDefaults(defineProps<CellTemplateProps>(), {
-    badge: 0,
-    avatar: 'https://img.yzcdn.cn/vant/cat.jpeg'
-});
+  badge: 0,
+  avatar: 'https://img.yzcdn.cn/vant/cat.jpeg'
+})
+
+const emit = defineEmits(['delChatItem'])
+const del = (friendId: string) => {
+  emit('delChatItem', friendId)
+}
 </script>
 
 <style lang="less" scoped>
@@ -51,6 +57,10 @@ withDefaults(defineProps<CellTemplateProps>(), {
     padding: 0;
     gap: 10px;
     height: 100%;
+    .avatar {
+      width: 45px;
+      height: 45px;
+    }
     .userinfo {
       display: flex;
       flex-direction: column;
