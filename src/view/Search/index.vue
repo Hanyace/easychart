@@ -31,18 +31,18 @@ import { ref, onMounted } from 'vue'
 
 const search = ref()
 const active = ref(0)
-const placeholder = ref('请输入用户昵称或id')
+const placeholder = ref('请输入用户昵称或id查找')
 
 const changeTab = (index:number) => {
   switch (index) {
     case 0:
-      placeholder.value = '请输入用户昵称或id'
+      placeholder.value = '请输入用户昵称或id查找'
       break
     case 1:
-      placeholder.value = '请输入好友昵称或id'
+      placeholder.value = '请输入好友昵称或id查找'
       break
     case 2:
-      placeholder.value = '请输入消息记录'
+      placeholder.value = '请输入消息记录查找'
       break
   }
 }

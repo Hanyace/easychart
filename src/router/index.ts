@@ -8,10 +8,11 @@ const router = createRouter({
             name: 'Layout',
             component: () => import('v/Layout/index.vue'),
             children: [
+                // 默认
                 {
-                    path: "ChatList",
+                    path: "/",
                     name: "ChatList",
-                    component: () => import('v/ChatList/index.vue')
+                    component: () => import('v/ChatList/index.vue'),
                 }
             ]
         },
@@ -39,6 +40,11 @@ const router = createRouter({
             path: "/search",
             name: "Search",
             component: () => import('v/Search/index.vue')
+        },
+        {
+            path: "/user/:id",
+            name: "User",
+            component: () => import('v/User/index.vue')
         }
     ]
 });

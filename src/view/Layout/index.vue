@@ -33,7 +33,7 @@
       <router-view></router-view>
     </div>
     <van-tabbar v-model="active">
-      <van-tabbar-item icon="chat-o" to="/ChatList">消息</van-tabbar-item>
+      <van-tabbar-item icon="chat-o" to="/">消息</van-tabbar-item>
       <van-tabbar-item icon="friends-o">朋友</van-tabbar-item>
       <van-tabbar-item icon="smile-o">社交</van-tabbar-item>
       <van-tabbar-item icon="contact">我的</van-tabbar-item>
