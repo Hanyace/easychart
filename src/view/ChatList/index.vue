@@ -5,6 +5,7 @@
       placeholder="搜索"
       input-align="center"
       @touchstart="touchSearch"
+      @click="touchSearch"
     />
     <CellTemplate
       :message="item.message"

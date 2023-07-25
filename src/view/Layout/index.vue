@@ -17,6 +17,7 @@
                 src="https://img.yzcdn.cn/vant/cat.jpeg"
                 :style="{ borderColor: statusColor }"
                 @touchstart="touchAvatar"
+                @click="touchAvatar"
               />
             </template>
           </van-popover>
