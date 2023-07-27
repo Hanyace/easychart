@@ -10,9 +10,14 @@ const router = createRouter({
             children: [
                 // 默认
                 {
-                    path: "/",
+                    path: "chatList",
                     name: "ChatList",
                     component: () => import('v/ChatList/index.vue'),
+                },
+                {
+                    path: "friend",
+                    name: "Friend",
+                    component: () => import('v/FriendList/index.vue'),
                 }
             ]
         },
@@ -44,7 +49,22 @@ const router = createRouter({
         {
             path: "/user/:id",
             name: "User",
-            component: () => import('v/User/index.vue')
+            component: () => import('v/User/index.vue'),
+        },
+        {
+            path: "/addUser/:id/:username",
+            name: "AddUser",
+            component: () => import('v/User/child/AddUser.vue'),
+        },
+        {
+            path: "/newFriend",
+            name: "NewFriend",
+            component: () => import('v/FriendList/child/newFriend.vue'),
+        },
+        {
+            path: "/verify/:friendId",
+            name: "Verify",
+            component: () => import('v/FriendList/child/verifyDetail.vue'),
         }
     ]
 });

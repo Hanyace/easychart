@@ -15,4 +15,15 @@
     --circle-bg-color: #333333;
     --circle-bg-color2: #1e1e1e;
     --circle-bg-color3: #767676;
+
+    /* vant样式覆盖 */
+
+    /* 按钮 */
+
+    --van-button-danger-background: #f44336;
+    --van-nav-bar-icon-color: #fff;
+
+    /* 单元格 */
+    --van-cell-group-title-padding: 5px 10px;
+    --van-cell-group-title-font-size: 12px
 }

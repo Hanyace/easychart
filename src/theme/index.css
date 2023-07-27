@@ -37,3 +37,12 @@ input {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* fadeIn */
+.fadeIn {
+    animation: fadeIn 0.5s ease-in;
+}
+/* fadeOut */
+.fadeOut {
+    animation: fadeOut 0.5s;
+}

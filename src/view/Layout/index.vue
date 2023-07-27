@@ -29,22 +29,21 @@
         <van-icon name="plus" color="var(--font-color)" />
       </template>
     </van-nav-bar>
-    <div :class="'layoutCnt' + (active == 0 ? ' messageBg' : '')">
+    <div :class="'layoutCnt' + (route.name == 'ChatList' ? ' messageBg' : '')">
       <router-view></router-view>
     </div>
-    <van-tabbar v-model="active">
-      <van-tabbar-item icon="chat-o" to="/">消息</van-tabbar-item>
-      <van-tabbar-item icon="friends-o">朋友</van-tabbar-item>
-      <van-tabbar-item icon="smile-o">社交</van-tabbar-item>
-      <van-tabbar-item icon="contact">我的</van-tabbar-item>
+    <van-tabbar route>
+      <van-tabbar-item replace icon="chat-o" to="/chatList">消息</van-tabbar-item>
+      <van-tabbar-item replace icon="friends-o" to="/friend">朋友</van-tabbar-item>
+      <van-tabbar-item replace icon="smile-o" to="/cc">社交</van-tabbar-item>
+      <van-tabbar-item replace icon="contact" to="/dd">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
-const active = ref(0)
+import { useRoute } from 'vue-router'
 const showSatusBoader = ref(false)
 const statusColor = ref('var(--online-color)')
 const statusText = ref('在线')
@@ -60,6 +59,8 @@ const statusList = ref([
     color: 'var(--leave-color)'
   }
 ])
+
+const route = useRoute()
 
 const touchAvatar = (e: TouchEvent) => {
   const pressTime = setTimeout(() => {

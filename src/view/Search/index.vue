@@ -6,7 +6,12 @@
       :placeholder="placeholder"
       input-align="left"
       ref="search"
-    />
+      v-model="value"
+    >
+      <template #right-icon>
+        <van-icon name="arrow-left" @click="router.back()" />
+      </template>
+    </van-search>
     <div class="searchCnt">
       <!-- 搜索类型 -->
       <van-tabs v-model:active="active" @change="changeTab">
@@ -28,12 +33,15 @@
 <script setup lang="ts">
 import ResultCell from './component/ResultCell.vue'
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const search = ref()
 const active = ref(0)
 const placeholder = ref('请输入用户昵称或id查找')
+const value = ref('')
 
-const changeTab = (index:number) => {
+const changeTab = (index: number) => {
   switch (index) {
     case 0:
       placeholder.value = '请输入用户昵称或id查找'

@@ -1,7 +1,7 @@
 <template>
   <div id="ResultCell">
     <van-cell-group>
-      <van-cell v-for="item in 10" :key="item">
+      <van-cell v-for="item in 10" :key="item" @click="toUser">
         <template #title>
           <div class="left">
             <!-- 头像 -->
@@ -34,12 +34,19 @@
 
 <script setup lang="ts">
 import {} from "vue";
+import { useRouter } from "vue-router";
 defineProps({
   active: {
     type: Number,
     default: 0,
   },
 });
+
+const router = useRouter();
+
+const toUser = () => {
+  router.push("/user/1");
+};
 </script>
 
 <style scoped lang="less">
