@@ -30,18 +30,26 @@
       </template>
     </van-nav-bar>
     <div :class="'layoutCnt' + (route.name == 'ChatList' ? ' messageBg' : '')">
-      <router-view></router-view>
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" /> 
+        </keep-alive>
+      </router-view>
     </div>
     <van-tabbar route>
-      <van-tabbar-item replace icon="chat-o" to="/chatList">消息</van-tabbar-item>
-      <van-tabbar-item replace icon="friends-o" to="/friend">朋友</van-tabbar-item>
+      <van-tabbar-item replace icon="chat-o" to="/chatList"
+        >消息</van-tabbar-item
+      >
+      <van-tabbar-item replace icon="friends-o" to="/friend"
+        >朋友</van-tabbar-item
+      >
       <van-tabbar-item replace icon="smile-o" to="/cc">社交</van-tabbar-item>
       <van-tabbar-item replace icon="contact" to="/dd">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="Layout">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 const showSatusBoader = ref(false)

@@ -23,12 +23,11 @@
 <script lang="ts" setup>
 import CellTemplate from './component/cellTemplate.vue'
 import type { CellTemplateProps } from '@/types/cellTemplate'
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
+import socket from '@/socket'
 
-const messageList = ref<CellTemplateProps[]>([])
-const router = useRouter()
-messageList.value = [
+const messageList = ref<CellTemplateProps[]>([
   {
     message: '你好',
     time: '下午 14:00',
@@ -36,7 +35,8 @@ messageList.value = [
     username: '张三',
     friendId: '1'
   }
-]
+])
+const router = useRouter()
 
 const delChatItem = (index: number) => {
   messageList.value.splice(index, 1)
@@ -45,6 +45,16 @@ const delChatItem = (index: number) => {
 const touchSearch = () => {
   router.push('/search')
 }
+
+const listenMessage = () => {
+  socket.on('chatList', (data: any) => {
+    console.log(data)
+  })
+}
+
+onBeforeMount(() => {
+  listenMessage()
+})
 </script>
 
 <style lang="less" scoped>

@@ -4,6 +4,7 @@ import './theme/index.css'
 import App from './App.vue'
 import router from './router'
 import { pinia } from './store'
+import '@/router/interceptor'
 
 createApp(App)
 .use(router)

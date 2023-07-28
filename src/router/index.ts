@@ -7,12 +7,19 @@ const router = createRouter({
             path: "/",
             name: 'Layout',
             component: () => import('v/Layout/index.vue'),
+            meta: {
+                keepAlive: true,
+                cacheList: ['ChatList']
+            },
             children: [
                 // 默认
                 {
                     path: "chatList",
                     name: "ChatList",
                     component: () => import('v/ChatList/index.vue'),
+                    meta: {
+                        keepAlive: true,
+                    },
                 },
                 {
                     path: "friend",

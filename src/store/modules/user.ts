@@ -9,9 +9,20 @@ export const useUserStore = defineStore('user', {
     state: () => ({
         token: localRead('token') || '',
         userInfo: (localRead('userInfo') || {}) as UserInfo ,
+        stautes: 0, // 0: 未登录 1: 已登录
     }),
     getters: {
-
+        statutesLabel: (state) => {
+            const { stautes } = state
+            switch (stautes) {
+                case 0:
+                    return '未登录'
+                case 1:
+                    return '已登录'
+                default:
+                    return '未知'
+            }
+        }
     },
     actions: {
         async getToken(data: Login) {
@@ -46,6 +57,9 @@ export const useUserStore = defineStore('user', {
         removeUserInfo() {
             localRemove('userInfo')
             this.userInfo = {} as UserInfo
+        },
+        changeStautes(stautes: number) {
+            this.stautes = stautes
         }
     },
 })

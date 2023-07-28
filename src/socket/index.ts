@@ -1,4 +1,3 @@
-import { reactive } from 'vue';
 import { Manager } from 'socket.io-client';
 import useStore from '@/store';
 
@@ -13,26 +12,21 @@ const manager = new Manager("ws://localhost:3000", {
     },
 });
 
-export const socket = manager.socket("/", {
+ const socket = manager.socket("/", {
     auth: {
         token: user.token
     }
 });
 
-export const state = reactive({
-    connected: false,
-    fooEvents: [],
-    barEvents: []
-});
-
+// 默认接收
 socket.on('connect', () => {
-    state.connected = true;
+    user.changeStautes(1);
     console.log('connected');
 }
 );
 
 socket.on("disconnect", () => {
-    state.connected = false;
+    user.changeStautes(0);
     console.log('disconnected');
 });
 
@@ -44,6 +38,8 @@ socket.on('error', (err: {
 });
 
 socket.on('disconnect_msg', ({ message }: { message: string }) => {
-    state.connected = false;
+    user.changeStautes(0);
     console.log(message);
 });
+
+export default socket;
