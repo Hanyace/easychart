@@ -2,7 +2,6 @@ import { Manager } from 'socket.io-client';
 import useStore from '@/store';
 
 const { user } = useStore();
-console.log(user.token);
 
 const manager = new Manager("ws://localhost:3000", {
     reconnectionDelayMax: 10000,

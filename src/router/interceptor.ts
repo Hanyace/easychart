@@ -19,5 +19,17 @@ router.beforeEach((to, from, next) => {
             }
         }
     }
-    next()
+
+    // 如果是登录页，就不需要拦截
+    if (to.name === 'Login') {
+        next()
+    } else {
+        // 如果不是登录页，就需要拦截
+        // 如果没有token，就跳转到登录页
+        if (!localStorage.getItem('token')) {
+            next({ name: 'Login' })
+        }else {
+            next()
+        }
+    }
 })
