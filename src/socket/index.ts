@@ -1,5 +1,6 @@
 import { Manager } from 'socket.io-client';
 import useStore from '@/store';
+import router from '@/router';
 
 const { user } = useStore();
 
@@ -39,6 +40,7 @@ socket.on('error', (err: {
 socket.on('disconnect_msg', ({ message }: { message: string }) => {
     user.changeStautes(0);
     console.log(message);
+    router.push({ name: 'Login' });
 });
 
 export default socket;

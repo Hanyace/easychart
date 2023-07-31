@@ -4,6 +4,7 @@
       class="search"
       shape="round"
       :placeholder="placeholder"
+      @update:model-value="onSearch"
       input-align="left"
       ref="search"
       v-model="value"
@@ -25,21 +26,25 @@
           <template #title> <van-icon name="chat-o" />消息 </template>
         </van-tab>
       </van-tabs>
-      <ResultCell :active="active" />
+      <ResultCell :dataList="dataList" :active="active" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import ResultCell from './component/ResultCell.vue'
+import type { UserInfo } from "@/types/user";
+import { user_find_api } from '@/api/user'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { debounce } from 'u/others'
 const router = useRouter()
 
 const search = ref()
 const active = ref(0)
 const placeholder = ref('请输入用户昵称或id查找')
 const value = ref('')
+const dataList = ref<UserInfo[]>([])
 
 const changeTab = (index: number) => {
   switch (index) {
@@ -53,6 +58,19 @@ const changeTab = (index: number) => {
       placeholder.value = '请输入消息记录查找'
       break
   }
+}
+
+const onSearch = async(value: string) => {
+  console.log(value);
+  if (value) {
+      const { data: res } = await user_find_api(value)
+      dataList.value = res.data
+    } else {
+      dataList.value = []
+    }
+  // debounce(async () => {
+
+  // }, 200)
 }
 
 onMounted(() => {

@@ -1,7 +1,7 @@
 <template>
   <div id="ResultCell">
     <van-cell-group>
-      <van-cell v-for="item in 10" :key="item" @click="toUser">
+      <van-cell v-for="(item, index) in dataList" :key="index" @click="toUser(item.userId)">
         <template #title>
           <div class="left">
             <!-- 头像 -->
@@ -13,19 +13,19 @@
             <div class="right">
               <div class="tag">
                 <!-- 性别标签 -->
-                <van-tag type="primary" round>♂</van-tag>
+                <van-tag type="primary" v-if="item.sex" round>{{ item.sex }}</van-tag>
                 <!-- 年龄标签 -->
-                <van-tag type="primary" round>18岁</van-tag>
+                <van-tag type="primary" round>{{ item.age || 0 }}岁</van-tag>
               </div>
-              <div class="username">{{ 'Han' }}</div>
+              <div class="username">{{ item.userName }}</div>
             </div>
           </div>
         </template>
         <template #label>
-          <div class="label">个性签名：很懒什么都没写</div>
+          <div class="label">个性签名：{{ item.discription }}</div>
         </template>
         <template #value>
-          <div class="value">广东</div>
+          <div class="value">{{ item.city || '未知' }}</div>
         </template>
       </van-cell>
     </van-cell-group>
@@ -35,17 +35,20 @@
 <script setup lang="ts">
 import {} from "vue";
 import { useRouter } from "vue-router";
-defineProps({
-  active: {
-    type: Number,
-    default: 0,
-  },
-});
+import type { UserInfo } from "@/types/user";
+
+withDefaults(defineProps<{
+  active: number;
+  dataList: UserInfo[];
+}>(),{
+  active: 0,
+  dataList: () => [],
+})
 
 const router = useRouter();
 
-const toUser = () => {
-  router.push("/user/1");
+const toUser = (id: String) => {
+  router.push(`/user/${id}`);
 };
 </script>
 
@@ -82,6 +85,7 @@ const toUser = () => {
     color: #999;
     font-size: 12px;
     font-style: italic;
+    width: 80vw;
     transform: scale(0.9);
   }
   .value {

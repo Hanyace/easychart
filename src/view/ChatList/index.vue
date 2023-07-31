@@ -23,20 +23,16 @@
 <script lang="ts" setup>
 import CellTemplate from './component/cellTemplate.vue'
 import type { CellTemplateProps } from '@/types/cellTemplate'
+import type { ChatList } from '@/types/user'
 import { ref, onBeforeMount } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import useStore from '@/store'
 import socket from '@/socket'
 
-const messageList = ref<CellTemplateProps[]>([
-  {
-    message: '你好',
-    time: '下午 14:00',
-    badge: 1,
-    username: '张三',
-    friendId: '1'
-  }
-])
+const messageList = ref<CellTemplateProps[]>([])
 const router = useRouter()
+const route = useRoute()
+const { chatList, user } = useStore()
 
 const delChatItem = (index: number) => {
   messageList.value.splice(index, 1)
@@ -52,7 +48,21 @@ const listenMessage = () => {
   })
 }
 
-onBeforeMount(() => {
+const formatToChatList = (data: ChatList[]) => {
+  return data.map((item: ChatList) => {
+    return {
+      message: item.lastMessage,
+      time: item.lastTime,
+      badge: item.messageNum,
+      username: user.userInfo.userName,
+      friendId: route.params.id
+    } as CellTemplateProps
+  })
+}
+
+onBeforeMount( async() => {
+  await chatList.getChatList()
+  messageList.value = formatToChatList(chatList.chatList)
   listenMessage()
 })
 </script>

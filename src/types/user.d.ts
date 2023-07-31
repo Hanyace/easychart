@@ -1,24 +1,27 @@
 interface UserInfo {
-    userId: String,
-    userName: String,
-    password: String,
-    birthday?: String,
-    city?: String,
-    tel: String,
-    email: String,
-    avatar?: String,
-    status: Number,
+    userId: string,
+    userName: string,
+    password: string,
+    birthday?: string,
+    city?: string,
+    tel: string,
+    email: string,
+    avatar?: string,
+    status: number,
+    discription: string,
+    age: number,
+    sex: number,
 }
 
 interface ChatList {
-    userId: String,
-    friendId: String,
-    lastMessage: String,
-    lastTime: String,
-    messageNum: Number,
-    messageType: Number,
+    userId: string,
+    friendId: string,
+    lastMessage: string,
+    lastTime: string,
+    messageNum: number,
+    messageType: number,
     isTop?: Boolean,
-    setTopTime?: String,
+    setTopTime?: string,
 }
 
 export { UserInfo, ChatList };

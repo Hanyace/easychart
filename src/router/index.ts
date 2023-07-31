@@ -44,7 +44,7 @@ const router = createRouter({
             component: () => import('v/Test/index.vue')
         },
         {
-            path: "/chart",
+            path: "/chart/:id",
             name: "Chart",
             component: () => import('v/Chart/index.vue')
         },

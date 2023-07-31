@@ -36,12 +36,13 @@
         <van-cell-group>
           <van-cell
             :border="false"
-            v-for="(item, index) in userinfo"
+            v-for="(item, index) in userInfoList"
             :key="index"
           >
             <template #title>
               <div class="infoTit">{{ item.title }}</div>
-              <div class="infoCnt">{{ item.cnt }}</div>
+              <div class="infoCnt" v-if="index == 2">{{ item.cnt }}岁</div>
+              <div class="infoCnt" v-else>{{ item.cnt }}</div>
             </template>
           </van-cell>
           <van-divider content-position="left">图集</van-divider>
@@ -66,11 +67,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import bg from '@/assets/images/bg.jpg'
+import { search_user_by_id_api } from '@/api/user'
 
 const router = useRouter()
+const route = useRoute()
 const height = ref(0)
 const blur = ref(5)
 const userStyle = ref({
@@ -79,26 +82,26 @@ const userStyle = ref({
   // 模糊
   filter: `blur(${blur.value}px)`
 })
-const userinfo = reactive([
+const userInfoList = reactive([
   {
     title: '昵称',
-    cnt: 'Han'
+    cnt: '--'
   },
   {
     title: '性别',
-    cnt: '男'
+    cnt: '?'
   },
   {
     title: '年龄',
-    cnt: '18岁'
+    cnt: 0
   },
   {
     title: '地区',
-    cnt: '广东'
+    cnt: '--'
   },
   {
     title: '个性签名',
-    cnt: '很懒什么都没写'
+    cnt: '暂无'
   }
 ])
 
@@ -117,6 +120,15 @@ const addFriend = () => {
     }
   })
 }
+
+onMounted( async() => {
+ const { data: {data: userInfo} } =  await search_user_by_id_api(route.params.id as string)
+  userInfoList[0].cnt = userInfo.userName
+  userInfoList[1].cnt = userInfo.sex?'女':'男'
+  userInfoList[2].cnt = userInfo.age
+  userInfoList[3].cnt = userInfo.city || '未知'
+  userInfoList[4].cnt = userInfo.discription
+})
 </script>
 
 <style lang="less" scoped>

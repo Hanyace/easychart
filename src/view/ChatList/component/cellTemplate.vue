@@ -1,7 +1,16 @@
 <template>
   <div id="CellTemplate">
     <van-swipe-cell>
-      <van-cell>
+      <van-cell
+        @click="
+          router.push({
+            name: 'chart',
+            params: {
+              id: friendId
+            }
+          })
+        "
+      >
         <template #title>
           <div class="left">
             <!-- 头像 -->
@@ -38,12 +47,15 @@
 
 <script lang="ts" setup>
 import type { CellTemplateProps } from '@/types/cellTemplate'
+import { useRouter } from 'vue-router'
+
 withDefaults(defineProps<CellTemplateProps>(), {
   badge: 0,
   avatar: 'https://img.yzcdn.cn/vant/cat.jpeg'
 })
 
 const emit = defineEmits(['delChatItem'])
+const router = useRouter()
 const del = (friendId: string) => {
   emit('delChatItem', friendId)
 }

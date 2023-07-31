@@ -25,6 +25,7 @@
 import { reactive } from 'vue'
 import useStore from '@/store'
 import { useRouter } from 'vue-router'
+
 const { user } = useStore()
 const loginData = reactive({
   userName: '',
@@ -35,6 +36,8 @@ const router = useRouter()
 const login = async () => {
   await user.getToken(loginData)
   await user.getUserInfo()
+
+
   router.push('/chatList')
 }
 </script>

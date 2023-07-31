@@ -1,11 +1,14 @@
 interface Register {
-    userName: String,
-    password: String,
-    birthday?: String,
-    city?: String,
-    tel: String,
-    E_Mail?: String,
-    avatar?: String,
+    userName: string,
+    password: string,
+    birthday?: string,
+    city?: string,
+    tel: string,
+    E_Mail?: string,
+    avatar?: string,
+    age?: number,
+    sex?: number,
+    discription?: string,
 }
 
 export { Register };
