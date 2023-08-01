@@ -2,7 +2,7 @@
   <div id="Login">
     <van-icon class="login_icon" name="chat-o" size="100" />
     <div class="cnt">
-      <van-cell-group inset >
+      <van-cell-group inset>
         <van-field
           v-model="loginData.userName"
           label="用户名"
@@ -14,9 +14,10 @@
           type="password"
           label="密码"
         />
-        
       </van-cell-group>
-      <van-button style="margin-top: 10px;" type="primary" @click="login" block>登录</van-button>
+      <van-button style="margin-top: 10px" type="primary" @click="login" block
+        >登录</van-button
+      >
     </div>
   </div>
 </template>
@@ -25,8 +26,9 @@
 import { reactive } from 'vue'
 import useStore from '@/store'
 import { useRouter } from 'vue-router'
+import { showToast } from 'vant'
 
-const { user } = useStore()
+const { user, friendList } = useStore()
 const loginData = reactive({
   userName: '',
   password: ''
@@ -34,11 +36,18 @@ const loginData = reactive({
 
 const router = useRouter()
 const login = async () => {
-  await user.getToken(loginData)
-  await user.getUserInfo()
-
-
-  router.push('/chatList')
+  try {
+    await user.getToken(loginData)
+    await user.getUserInfo()
+    await friendList.getFriendList()
+    await friendList.getGroupList()
+    router.push('/chatList')
+  } catch (error: any) {
+    showToast({
+      message: error.message as string,
+      type: 'fail'
+    })
+  }
 }
 </script>
 

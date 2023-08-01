@@ -12,8 +12,13 @@
             src="https://img.yzcdn.cn/vant/cat.jpeg"
           />
           <van-space direction="vertical" fill>
-            <div class="username">{{ route.params.username }}</div>
-            <div>广东 <van-tag round type="primary">♂</van-tag></div>
+            <div class="username">{{ temp.tempUserInfo.userName }}</div>
+            <div>
+              {{ temp.tempUserInfo.city || '' }}
+              <van-tag round type="primary">{{
+                temp.tempUserInfo.sex ? '♀' : '♂'
+              }}</van-tag>
+            </div>
           </van-space>
         </van-space>
       </template>
@@ -31,8 +36,14 @@
       />
       <van-space direction="vertical" fill>
         <div></div>
-        <van-button style="margin-top:10px" type="primary" block>发送验证</van-button>
-        <van-button type='danger' block @click="router.back()">取消</van-button>
+        <van-button
+          style="margin-top: 10px"
+          type="primary"
+          @click="sendVerify"
+          block
+          >发送验证</van-button
+        >
+        <van-button type="danger" block @click="router.back()">取消</van-button>
       </van-space>
     </van-cell-group>
   </div>
@@ -40,12 +51,27 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { showSuccessToast } from 'vant'
+import useStore from '@/store'
+import socket from '@/socket'
 const router = useRouter()
-const route = useRoute()
+const { user, temp } = useStore()
+
+defineProps(['username', 'id'])
 
 const message = ref('')
 const back = () => {
+  router.back()
+}
+
+const sendVerify = () => {
+  socket.emit('addFriend', {
+    userId: user.userInfo.userId,
+    friendId: temp.tempUserInfo.userId,
+    addMessage: message.value
+  })
+  showSuccessToast('发送成功')
   router.back()
 }
 </script>

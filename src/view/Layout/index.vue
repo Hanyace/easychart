@@ -1,6 +1,6 @@
 <template>
   <div id="Layout">
-    <van-nav-bar title="Han">
+    <van-nav-bar :title="user.userInfo.userName">
       <template #left>
         <div class="left">
           <van-popover
@@ -52,6 +52,7 @@
 <script lang="ts" setup name="Layout">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import useStore from '@/store'
 const showSatusBoader = ref(false)
 const statusColor = ref('var(--online-color)')
 const statusText = ref('在线')
@@ -68,6 +69,7 @@ const statusList = ref([
   }
 ])
 
+const { user } = useStore()
 const route = useRoute()
 
 const touchAvatar = (e: TouchEvent) => {

@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { localRead } from './localStorage'
 import router from '@/router'
+import { showLoadingToast, closeToast, showFailToast } from 'vant';
 
 const request = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: import.meta.env.VITE_API_URL,
     timeout: 3000,
     headers: {
         'Content-Type': 'application/json'
@@ -19,11 +20,16 @@ request.interceptors.request.use(config => {
         const token = localRead('token');
         if (!token) {
             router.push('/login');
+            showFailToast('请重新登录')
             new Error('缺少token,请重新登录');
         } else {
             // 携带token
             config.headers.Authorization = token
         }
+        showLoadingToast({
+            message: '加载中...',
+            forbidClick: true,
+        })
         return config;
     }
 }, error => {
@@ -34,9 +40,11 @@ request.interceptors.request.use(config => {
 // Add a response interceptor
 request.interceptors.response.use(response => {
     // Do something before response is sent
+    closeToast()
     return response;
 }, error => {
     // Do something with response error
+    showFailToast(error.message)
     return Promise.reject(error);
 });
 

@@ -1,6 +1,9 @@
 import { Manager } from 'socket.io-client';
 import useStore from '@/store';
 import router from '@/router';
+import { friendControl } from './friendControl';
+
+
 
 const { user } = useStore();
 
@@ -42,5 +45,10 @@ socket.on('disconnect_msg', ({ message }: { message: string }) => {
     console.log(message);
     router.push({ name: 'Login' });
 });
+
+
+// 附加监听
+friendControl(socket);
+
 
 export default socket;

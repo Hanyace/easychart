@@ -1,3 +1,4 @@
+
 interface UserInfo {
     userId: string,
     userName: string,
@@ -24,4 +25,25 @@ interface ChatList {
     setTopTime?: string,
 }
 
-export { UserInfo, ChatList };
+interface AddMessage {
+    message: string;
+    time: number;
+    type: number;
+}
+
+interface Friend {
+    userId: string;
+    friendId: string;
+    friendGroup: number;
+    friendType: number;
+    friendTime: Date;
+    addMessage: AddMessage[];
+    isView: boolean;
+}
+
+interface FriendGroup {
+    name: string;
+    index: number;
+}
+
+export { UserInfo, ChatList, Friend, FriendGroup };

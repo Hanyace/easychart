@@ -71,11 +71,15 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import bg from '@/assets/images/bg.jpg'
 import { search_user_by_id_api } from '@/api/user'
+import type { UserInfo } from '@/types/user'
+import useStore from '@/store'
 
 const router = useRouter()
 const route = useRoute()
+const { temp } = useStore()
 const height = ref(0)
 const blur = ref(5)
+const findInfo = ref<UserInfo>()
 const userStyle = ref({
   background: `url(${bg}) no-repeat center center fixed`,
   backgroundSize: 'cover',
@@ -112,14 +116,15 @@ const anchors = reactive([
 ])
 
 const addFriend = () => {
+  temp.setTempUserInfo(findInfo.value!)
   router.push({
     name: 'AddUser',
     params: {
-      id: 1,
-      username: 'Han'
+      id: route.params.id,
+      username: userInfoList[0].cnt,
     }
   })
-}
+} 
 
 onMounted( async() => {
  const { data: {data: userInfo} } =  await search_user_by_id_api(route.params.id as string)
@@ -128,6 +133,7 @@ onMounted( async() => {
   userInfoList[2].cnt = userInfo.age
   userInfoList[3].cnt = userInfo.city || '未知'
   userInfoList[4].cnt = userInfo.discription
+  findInfo.value = userInfo
 })
 </script>
 

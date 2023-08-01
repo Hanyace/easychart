@@ -38,23 +38,26 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 withDefaults(
   defineProps<{
-    avatar?: string
-    username?: string
-    message?: string
-    time?: string
-    isMe?: boolean
-    status?: string
-    friendId?: string
+    item?: {
+      avatar?: string
+      username?: string
+      message?: string
+      time?: string
+      isMe?: boolean
+      status?: string
+      friendId?: string
+    }
   }>(),
   {
-    avatar: 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
-    username: 'Han',
-    message:
-      '我是一条验证消息我是一条验证消息我是一条验证消息我是一条验证消息我是一条验证消息',
-    time: '2021-01-01 12:00',
-    isMe: false,
-    status: '等待验证',
-    friendId: '11'
+    item: {
+      avatar: 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+      username: 'Han',
+      message:'我是一条验证消息我是一条验证消息我是一条验证消息我是一条验证消息我是一条验证消息',
+      time: '2021-01-01 12:00',
+      isMe: false,
+      status: '等待验证',
+      friendId: '11'
+    }
   }
 )
 </script>

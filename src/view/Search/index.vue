@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import ResultCell from './component/ResultCell.vue'
-import type { UserInfo } from "@/types/user";
+import type { UserInfo } from '@/types/user'
 import { user_find_api } from '@/api/user'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -49,10 +49,10 @@ const dataList = ref<UserInfo[]>([])
 const changeTab = (index: number) => {
   switch (index) {
     case 0:
-      placeholder.value = '请输入用户昵称或id查找'
+      placeholder.value = '请输入用户昵称或邮箱查找'
       break
     case 1:
-      placeholder.value = '请输入好友昵称或id查找'
+      placeholder.value = '请输入好友昵称或邮箱查找'
       break
     case 2:
       placeholder.value = '请输入消息记录查找'
@@ -60,18 +60,18 @@ const changeTab = (index: number) => {
   }
 }
 
-const onSearch = async(value: string) => {
-  console.log(value);
-  if (value) {
-      const { data: res } = await user_find_api(value)
+const onSearch = debounce(async function () {
+  if (value.value) {
+    const { data: res } = await user_find_api(value.value)
+    if (res.data) {
       dataList.value = res.data
     } else {
       dataList.value = []
     }
-  // debounce(async () => {
-
-  // }, 200)
-}
+  } else {
+    dataList.value = []
+  }
+}, 500)
 
 onMounted(() => {
   search.value.focus()

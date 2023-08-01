@@ -1,6 +1,6 @@
 import reuqest from 'u/request'
 import type { Response } from '@/types/respones'
-import type { UserInfo, ChatList } from '@/types/user'
+import type { UserInfo, ChatList, Friend, FriendGroup } from '@/types/user'
 
 export const user_info_api = () => {
     return reuqest<Response<UserInfo>>({
@@ -33,5 +33,19 @@ export const search_user_by_id_api = (id: string) => {
         data: {
             id
         }
+    })
+}
+
+export const user_friend_list_api = () => {
+    return reuqest<Response<Friend[]>>({
+        url: '/user/friend_list',
+        method: 'get',
+    })
+}
+
+export const user_group_list_api = () => {
+    return reuqest<Response<FriendGroup[]>>({
+        url: '/user/group_list',
+        method: 'get',
     })
 }

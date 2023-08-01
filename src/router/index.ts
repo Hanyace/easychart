@@ -62,6 +62,7 @@ const router = createRouter({
             path: "/addUser/:id/:username",
             name: "AddUser",
             component: () => import('v/User/child/AddUser.vue'),
+            props: true
         },
         {
             path: "/newFriend",
