@@ -4,6 +4,7 @@ import type { Login } from '@/types/login'
 import { login_api } from '@/api/login'
 import { user_info_api } from '@/api/user'
 import { localSave, localRemove, localRead } from 'u/localStorage'
+import { showToast } from 'vant'
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -28,8 +29,14 @@ export const useUserStore = defineStore('user', {
         async getToken(data: Login) {
             try {
                 const { data: loginData } = await login_api(data)
-                this.saveToken(loginData.data.token)
+                if (loginData.data) {
+                    this.saveToken(loginData.data.token)
+                    showToast('登录成功')
+                } else {
+                    showToast(loginData.msg)
+                }
             } catch (error) {
+                showToast('登录失败' + error)
                 console.log(error)
             }
         },
@@ -38,8 +45,8 @@ export const useUserStore = defineStore('user', {
             this.token = token
         },
         removeToken() {
-            localRemove('token')
             this.token = ''
+            localRemove('token')
         },
         
         async getUserInfo() {

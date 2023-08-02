@@ -38,14 +38,15 @@ const router = useRouter()
 const login = async () => {
   try {
     await user.getToken(loginData)
-    await user.getUserInfo()
-    await friendList.getFriendList()
-    await friendList.getGroupList()
-    router.push('/chatList')
+    if (user.token) {
+      await user.getUserInfo()
+      await friendList.getFriendList()
+      await friendList.getGroupList()
+      router.push('/chatList')
+    }
   } catch (error: any) {
     showToast({
       message: error.message as string,
-      type: 'fail'
     })
   }
 }

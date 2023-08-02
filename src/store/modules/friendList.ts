@@ -48,8 +48,8 @@ export const useFriendListStore = defineStore("friendManager", {
                     this.friendList = []
                 }
             } catch (error) {
-                console.log(error)
-                showToast('获取好友列表失败' + error)
+                // console.log(error)
+                // showToast('获取好友列表失败' + error)
             }
         },
         async getGroupList() {
@@ -58,11 +58,18 @@ export const useFriendListStore = defineStore("friendManager", {
                 if (data.data) {
                     this.groupList = data.data
                 } else {
-                    showToast('获取分组列表失败')
+                    showToast('获取分组列表为空')
                 }
             } catch (error) {
-                console.log(error)
-                showToast('获取分组列表失败' + error)
+                // console.log(error)
+                // showToast('获取分组列表失败' + error)
+            }
+        },
+        changeFriendType(friendId: string, friendType: number, isView:boolean = true) {
+            const index = this.friendList.findIndex(friend => friend.friendId === friendId)
+            if (index) {
+                this.friendList[index].friendType = friendType
+                this.friendList[index].isView = isView
             }
         }
     },

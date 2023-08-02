@@ -4,7 +4,7 @@ interface Login {
 }
 
 interface LoginResult {
-    token: string;
+    msg: string;
     code: number;
     data: Token;
 }

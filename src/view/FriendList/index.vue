@@ -35,14 +35,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import useStore from '@/store'
 
 const { friendList } = useStore()
 const router = useRouter()
 
-const badge = ref(friendList.getUnreadCount)
+// const badge = ref(friendList.getUnreadCount)
+
+const badge = computed(() => friendList.getUnreadCount)
 const activeNames = ref([0])
 const touchSearch = () => {
   router.push('/search')

@@ -2,6 +2,7 @@ import { Manager } from 'socket.io-client';
 import useStore from '@/store';
 import router from '@/router';
 import { friendControl } from './friendControl';
+import { showToast } from 'vant'
 
 
 
@@ -31,6 +32,9 @@ socket.on('connect', () => {
 socket.on("disconnect", () => {
     user.changeStautes(0);
     console.log('disconnected');
+    showToast('请重新登录哦!')
+    user.removeToken()
+    router.push('/login');
 });
 
 socket.on('error', (err: {
@@ -43,7 +47,8 @@ socket.on('error', (err: {
 socket.on('disconnect_msg', ({ message }: { message: string }) => {
     user.changeStautes(0);
     console.log(message);
-    router.push({ name: 'Login' });
+    // user.removeToken()
+    router.push('/login');
 });
 
 

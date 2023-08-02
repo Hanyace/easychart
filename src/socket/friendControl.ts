@@ -1,6 +1,10 @@
 import type { Socket } from 'socket.io-client';
 import { showSuccessToast, showFailToast, showToast } from 'vant'
+import useStore from '@/store';
 
+const {
+    friendList
+} = useStore();
 
 // 监听好友请求
 
@@ -39,6 +43,10 @@ export const friendControl = (socket: Socket) => {
                 })
                 break;
             case 0:  // 主动添加
+            case 1:  // 被添加
+            
+            friendList.getFriendList()
+            break;
             default:
                 break;
         }

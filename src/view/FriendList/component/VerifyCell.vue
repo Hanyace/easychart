@@ -5,10 +5,10 @@
       router.push({
         name: 'Verify',
         params: {
-          friendId
+          friendId:item.friendId
         },
         query: {
-          username
+          username:item.username
         }
       })
     "
@@ -16,18 +16,18 @@
     <template #title>
       <van-space>
         <!-- avatar -->
-        <van-image class="avatarbox" fit="cover" round :src="avatar" />
+        <van-image class="avatarbox" fit="cover" round :src="item.avatar" />
         <van-space direction="vertical" :size="0" fill>
-          <span class="username">{{ username }}</span>
-          <span class="text">{{ time }}</span>
+          <span class="username">{{ item.username }}</span>
+          <span class="text">{{ item.time }}</span>
         </van-space>
         <div class="status">
-          <van-icon v-if="!isMe" name="friends-o" />
+          <van-icon v-if="!item.isMe" name="friends-o" />
           <van-icon v-else name="user-o" />
-          {{ status }}
+          {{ item.status }}
         </div>
       </van-space>
-      <div class="text ellipsis-1">验证消息：{{ message }}</div>
+      <div class="text ellipsis-1">验证消息：{{ item.message }}</div>
     </template>
   </van-cell>
 </template>
@@ -38,27 +38,17 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 withDefaults(
   defineProps<{
-    item?: {
+    item: {
       avatar?: string
       username?: string
       message?: string
-      time?: string
+      time?: number
       isMe?: boolean
       status?: string
       friendId?: string
     }
   }>(),
-  {
-    item: {
-      avatar: 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
-      username: 'Han',
-      message:'我是一条验证消息我是一条验证消息我是一条验证消息我是一条验证消息我是一条验证消息',
-      time: '2021-01-01 12:00',
-      isMe: false,
-      status: '等待验证',
-      friendId: '11'
-    }
-  }
+  {}
 )
 </script>
 

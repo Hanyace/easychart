@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { localRead } from './localStorage'
+import { localRead, localRemove } from './localStorage'
 import router from '@/router'
 import { showLoadingToast, closeToast, showFailToast } from 'vant';
+
 
 const request = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -41,7 +42,13 @@ request.interceptors.request.use(config => {
 request.interceptors.response.use(response => {
     // Do something before response is sent
     closeToast()
-    return response;
+    if (response.data.code === 401) {
+        router.push('/login');
+        showFailToast('请重新登录')
+        localRemove('token');
+        new Error('token过期,请重新登录');
+    }
+    return response
 }, error => {
     // Do something with response error
     showFailToast(error.message)

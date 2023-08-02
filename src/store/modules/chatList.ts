@@ -20,7 +20,7 @@ export const useChatListStore = defineStore('chatList', {
                 const { data } = await user_chatList_api()
                 this.setChatList(data.data)
             } catch (error) {
-                console.log(error)
+                // console.log(error)
             }
         }
     }
