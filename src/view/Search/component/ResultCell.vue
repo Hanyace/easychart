@@ -1,7 +1,7 @@
 <template>
   <div id="ResultCell">
     <van-cell-group>
-      <van-cell v-for="(item, index) in dataList" :key="index" @click="toUser(item.userId)">
+      <van-cell v-for="(item, index) in dataList" :key="index" @click="toUser(item._id)">
         <template #title>
           <div class="left">
             <!-- 头像 -->

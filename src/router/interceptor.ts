@@ -20,8 +20,8 @@ router.beforeEach((to, from, next) => {
         }
     }
 
-    // 如果是登录页，就不需要拦截
-    if (to.name === 'Login') {
+    // 如果是登录页或者注册页，就不需要拦截
+    if (to.name === 'Login' || to.name === 'Register') {
         next()
     } else {
         // 如果不是登录页，就需要拦截

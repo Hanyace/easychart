@@ -1,14 +1,12 @@
 
 interface UserInfo {
-    userId: string,
+    _id: string,
     userName: string,
-    password: string,
     birthday?: string,
     city?: string,
     tel: string,
     email: string,
     avatar?: string,
-    status: number,
     discription: string,
     age: number,
     sex: number,
@@ -33,7 +31,7 @@ interface AddMessage {
 
 interface Friend {
     userId: string;
-    friendId: string;
+    friendId: UserInfo;
     friendGroup: number;
     friendType: number;
     friendTime: Date;

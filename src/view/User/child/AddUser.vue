@@ -67,8 +67,8 @@ const back = () => {
 
 const sendVerify = () => {
   socket.emit('addFriend', {
-    userId: user.userInfo.userId,
-    friendId: temp.tempUserInfo.userId,
+    userId: user.userInfo._id,
+    friendId: temp.tempUserInfo._id,
     addMessage: message.value
   })
   showSuccessToast('发送成功')

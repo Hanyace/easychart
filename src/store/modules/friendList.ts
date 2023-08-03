@@ -65,12 +65,15 @@ export const useFriendListStore = defineStore("friendManager", {
                 // showToast('获取分组列表失败' + error)
             }
         },
-        changeFriendType(friendId: string, friendType: number, isView:boolean = true) {
-            const index = this.friendList.findIndex(friend => friend.friendId === friendId)
+        changeFriendType(friendId: string, friendType: number, isView: boolean = true) {
+            const index = this.friendList.findIndex(friend => friend.friendId._id === friendId)
             if (index) {
                 this.friendList[index].friendType = friendType
                 this.friendList[index].isView = isView
             }
+        },
+        getFriendInfoById(friendId: string) {
+          return  this.friendList.filter(item => item.friendId._id === friendId)[0]
         }
     },
 });

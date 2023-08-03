@@ -1,6 +1,8 @@
 import type { Socket } from 'socket.io-client';
 import { showSuccessToast, showFailToast, showToast } from 'vant'
 import useStore from '@/store';
+import socket from './index'
+import router from '@/router'
 
 const {
     friendList
@@ -44,11 +46,55 @@ export const friendControl = (socket: Socket) => {
                 break;
             case 0:  // 主动添加
             case 1:  // 被添加
-            
-            friendList.getFriendList()
-            break;
+
+                friendList.getFriendList()
+                break;
             default:
                 break;
         }
     })
+}
+
+
+
+
+// 添加好友
+export const sendVerify = (userId: string, friendId: string, addMessage: string) => {
+    socket.emit('addFriend', {
+        userId,
+        friendId,
+        addMessage
+    })
+    showSuccessToast('发送成功')
+    router.back()
+}
+
+// 通过验证
+export const passVerify = (userId: string, friendId: string) => {
+    socket.emit('passFriend', {
+        userId,
+        friendId,
+    })
+    router.push('/chatList')
+}
+
+// 回复验证
+export const replyVerify = (userId: string, friendId: string, message: string) => {
+    socket.emit('replyFriend', {
+        userId,
+        friendId,
+        message
+    })
+    showSuccessToast('发送成功')
+    router.back()
+}
+
+// 拒绝验证
+export const refuseVerify = (userId: string, friendId: string) => {
+    socket.emit('refuseFriend', {
+        userId,
+        friendId,
+    })
+    showSuccessToast('发送成功')
+    router.back()
 }

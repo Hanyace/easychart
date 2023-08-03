@@ -15,6 +15,7 @@ const manager = new Manager("ws://localhost:3000", {
         Authorization: user.token
     },
 });
+console.log(user.token);
 
  const socket = manager.socket("/", {
     auth: {
@@ -47,8 +48,9 @@ socket.on('error', (err: {
 socket.on('disconnect_msg', ({ message }: { message: string }) => {
     user.changeStautes(0);
     console.log(message);
+    user.removeToken()
     // user.removeToken()
-    router.push('/login');
+    // router.push('/login');
 });
 
 

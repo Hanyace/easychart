@@ -5,10 +5,10 @@
       router.push({
         name: 'Verify',
         params: {
-          friendId:item.friendId
+          friendId: item.friendId
         },
         query: {
-          username:item.username
+          username: item.username
         }
       })
     "
@@ -19,7 +19,7 @@
         <van-image class="avatarbox" fit="cover" round :src="item.avatar" />
         <van-space direction="vertical" :size="0" fill>
           <span class="username">{{ item.username }}</span>
-          <span class="text">{{ item.time }}</span>
+          <span class="text">{{ formatDate(item.time) }}</span>
         </van-space>
         <div class="status">
           <van-icon v-if="!item.isMe" name="friends-o" />
@@ -35,17 +35,18 @@
 <script setup lang="ts">
 import {} from 'vue'
 import { useRouter } from 'vue-router'
+import { formatDate } from '@/hook/timeFilter'
 const router = useRouter()
 withDefaults(
   defineProps<{
     item: {
       avatar?: string
-      username?: string
+      username: string
       message?: string
-      time?: number
-      isMe?: boolean
-      status?: string
-      friendId?: string
+      time: number | string
+      isMe: boolean
+      status: string
+      friendId: string
     }
   }>(),
   {}

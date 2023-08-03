@@ -8,3 +8,11 @@ export const register_api = (data: Register) => {
         data,
     });
 }
+
+export const verify_code_api = (data: any) => {
+    return request({
+        url: "/register/verify",
+        method: "post",
+        data
+    });
+}

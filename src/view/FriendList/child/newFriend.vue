@@ -40,12 +40,13 @@ const newApply = computed(() => {
     .filter(v => v.isView === false)
     .map(v => {
       return {
-        username: '未知',
+        username: v.friendId.userName,
         message: v.addMessage[v.addMessage.length - 1].message,
         time: v.addMessage[v.addMessage.length - 1].time,
-        isMe: v.userId === user.userInfo.userId,
+        isMe: v.userId === user.userInfo._id,
         status: '等待验证',
-        friendId: v.friendId
+        friendId: v.friendId._id,
+        avatar: v.friendId.avatar,
       }
     })
 })
@@ -55,12 +56,13 @@ const pendingProcess = computed(() => {
     .filter(v => v.isView === true && v.friendType == 0)
     .map(v => {
       return {
-        username: '未知',
+        username: v.friendId.userName,
         message: v.addMessage[v.addMessage.length - 1].message,
         time: v.addMessage[v.addMessage.length - 1].time,
-        isMe: v.userId === user.userInfo.userId,
+        isMe: v.userId === user.userInfo._id,
         status: '待通过',
-        friendId: v.friendId
+        friendId: v.friendId._id,
+        avatar: v.friendId.avatar,
       }
     })
 })
