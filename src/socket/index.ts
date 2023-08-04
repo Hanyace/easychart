@@ -2,6 +2,7 @@ import { Manager } from 'socket.io-client';
 import useStore from '@/store';
 import router from '@/router';
 import { friendControl } from './friendControl';
+import { chatListListen } from './chartList'
 import { showToast } from 'vant'
 
 
@@ -15,7 +16,6 @@ const manager = new Manager("ws://localhost:3000", {
         Authorization: user.token
     },
 });
-console.log(user.token);
 
  const socket = manager.socket("/", {
     auth: {
@@ -56,6 +56,7 @@ socket.on('disconnect_msg', ({ message }: { message: string }) => {
 
 // 附加监听
 friendControl(socket);
+chatListListen(socket);
 
 
 export default socket;

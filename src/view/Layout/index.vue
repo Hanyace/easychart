@@ -52,6 +52,7 @@
 <script lang="ts" setup name="Layout">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import '@/socket'
 import useStore from '@/store'
 const showSatusBoader = ref(false)
 const statusColor = ref('var(--online-color)')

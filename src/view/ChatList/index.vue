@@ -27,7 +27,6 @@ import type { ChatList } from '@/types/user'
 import { ref, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import useStore from '@/store'
-import socket from '@/socket'
 
 const messageList = ref<CellTemplateProps[]>([])
 const router = useRouter()
@@ -40,12 +39,6 @@ const delChatItem = (index: number) => {
 
 const touchSearch = () => {
   router.push('/search')
-}
-
-const listenMessage = () => {
-  socket.on('chatList', (data: any) => {
-    console.log(data)
-  })
 }
 
 const formatToChatList = (data: ChatList[]) => {
@@ -63,7 +56,6 @@ const formatToChatList = (data: ChatList[]) => {
 onBeforeMount( async() => {
   await chatList.getChatList()
   messageList.value = formatToChatList(chatList.chatList)
-  listenMessage()
 })
 </script>
 

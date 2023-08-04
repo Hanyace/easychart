@@ -19,6 +19,7 @@
         >登录</van-button
       >
     </div>
+    <div class="toregister" @click="toRejister" >没有账号？去注册></div>
   </div>
 </template>
 
@@ -28,7 +29,7 @@ import useStore from '@/store'
 import { useRouter } from 'vue-router'
 import { showToast } from 'vant'
 
-const { user, friendList } = useStore()
+const { user, friendList, chatList } = useStore()
 const loginData = reactive({
   userName: '',
   password: ''
@@ -42,13 +43,18 @@ const login = async () => {
       await user.getUserInfo()
       await friendList.getFriendList()
       await friendList.getGroupList()
+      await chatList.getChatList()
       router.push('/chatList')
     }
   } catch (error: any) {
     showToast({
-      message: error.message as string,
+      message: error.message as string
     })
   }
+}
+
+const toRejister = () => {
+  router.push('/register')
 }
 </script>
 
@@ -70,6 +76,14 @@ const login = async () => {
     left: 50%;
     transform: translateX(-50%);
     width: 80vw;
+  }
+  .toregister {
+    font-size: 12px;
+    color: var(--font-color-sub2);
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 </style>

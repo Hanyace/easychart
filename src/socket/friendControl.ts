@@ -46,6 +46,7 @@ export const friendControl = (socket: Socket) => {
                 break;
             case 0:  // 主动添加
             case 1:  // 被添加
+            case 14:  // 查看
 
                 friendList.getFriendList()
                 break;
@@ -97,4 +98,13 @@ export const refuseVerify = (userId: string, friendId: string) => {
     })
     showSuccessToast('发送成功')
     router.back()
+}
+
+// 读取验证
+export const readVerify = (userId: string, friendId: string) => {
+    socket.emit('viewFriend', {
+        userId,
+        friendId,
+    })
+    showSuccessToast('发送成功')
 }

@@ -38,9 +38,11 @@
 import { ref, onMounted } from "vue";
 import ChartBubble from "./component/ChartBubble.vue";
 import useStore from "@/store";
-import { socket } from "@/socket";
+import socket from "@/socket";
+import { useRoute } from 'vue-router'
 
 const { user } = useStore();
+const route = useRoute()
 
 const message = ref("");
 const chartFooter = ref<Element | null>(null);
@@ -80,10 +82,8 @@ const onResize = () => {
 const sendMsg = () => {
   const sendTime = new Date().getTime();
   socket.emit("singleChart", {
-    userId: user.userInfo.userId,
-    friendId: !checked.value
-      ? "c7eab240-27f2-11ee-a7a2-e35206da0c76"
-      : "99b48ea0-27f2-11ee-a7a2-e35206da0c76",
+    userId: user.userInfo._id,
+    friendId: route.params.id,
     message: message.value,
     messageType: 0,
     sendTime,

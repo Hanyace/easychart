@@ -22,6 +22,15 @@ export const useChatListStore = defineStore('chatList', {
             } catch (error) {
                 // console.log(error)
             }
+        },
+        changeListById(friendId: string, cb: ((data: ChatList) => ChatList)) {
+            const index = this.chatList.findIndex(v => v.friendId._id == friendId)
+            if (index) {
+                this.chatList[index] =
+                    cb(this.chatList[index])
+            }else {
+                console.error('changeListById:查询不到此friendId')
+            }
         }
     }
 })

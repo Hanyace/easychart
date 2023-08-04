@@ -1,17 +1,7 @@
 <template>
   <van-cell
     style="position: relative"
-    @click="
-      router.push({
-        name: 'Verify',
-        params: {
-          friendId: item.friendId
-        },
-        query: {
-          username: item.username
-        }
-      })
-    "
+    @click="link(item.friendId, item.username, item.status)"
   >
     <template #title>
       <van-space>
@@ -36,7 +26,10 @@
 import {} from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDate } from '@/hook/timeFilter'
+import { readVerify } from '@/socket/friendControl'
+import useStore from '@/store'
 const router = useRouter()
+const { user } = useStore()
 withDefaults(
   defineProps<{
     item: {
@@ -51,6 +44,23 @@ withDefaults(
   }>(),
   {}
 )
+
+const link = (friendId: string, username: string, status: string) => {
+  if (['已通过', '已拒绝'].includes(status)) {
+    router.push(`/user/${friendId}`)
+  } else {
+    readVerify(user.userInfo._id, friendId)
+    router.push({
+      name: 'Verify',
+      params: {
+        friendId
+      },
+      query: {
+        username
+      }
+    })
+  }
+}
 </script>
 
 <style scoped lang="less">

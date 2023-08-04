@@ -4,7 +4,7 @@
     <van-form @submit="register">
       <van-tabs v-model:active="active">
         <van-tab title="注册"
-          ><van-cell-group style="border-radius: 10px; overflow: hidden">
+          ><van-cell-group v-if="active===0" style="border-radius: 10px; overflow: hidden">
             <van-field
               label-align="top"
               v-model="userName"
@@ -125,7 +125,7 @@
             /> </van-cell-group
         ></van-tab>
         <van-tab title="验证">
-          <van-cell-group style="border-radius: 10px; overflow: hidden">
+          <van-cell-group v-if="active===1" style="border-radius: 10px; overflow: hidden">
             <van-field
               label-align="top"
               v-model="email2"
@@ -167,6 +167,8 @@
       <van-date-picker
         @confirm="onConfirmBirthday"
         @cancel="showPicker = false"
+        :min-date="new Date('1900-01-01')"
+        :max-date="new Date()"
       />
     </van-popup>
     <van-popup v-model:show="showArea" position="bottom">
@@ -181,10 +183,13 @@
 
 <script setup lang="ts">
 import { register_api, verify_code_api } from '@/api/register'
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 // @ts-ignore
 import { areaList } from '@vant/area-data'
 import { showToast } from 'vant'
+
+const router = useRouter()
 const userName = ref('')
 const password = ref('')
 const rePassword = ref('')
@@ -230,6 +235,7 @@ const register = async (data: any) => {
   } else {
     const res = await verify_code_api(data)
     showToast(res.data.msg)
+    router.push('/login')
   }
 }
 </script>

@@ -27,7 +27,13 @@
           :title="item.name"
           :name="item.index"
         >
-          代码是写出来给人看的，附带能在机器上运行。
+          <FriendCell
+            :data="friend"
+            v-for="(friend, idx) in friendList.friendList.filter(
+              v => v.friendGroup == item.index
+            )"
+            :key="idx"
+          />
         </van-collapse-item>
       </van-collapse>
     </van-cell-group>
@@ -36,6 +42,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import FriendCell from './component/FriendCell.vue'
 import { useRouter } from 'vue-router'
 import useStore from '@/store'
 

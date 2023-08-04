@@ -20,8 +20,12 @@
         />
       </van-cell-group>
       <van-cell-group title="已处理">
-        <!-- <VerifyCell status="已添加" />
-        <VerifyCell status="已拒绝" /> -->
+        <VerifyCell
+          :item="item"
+          v-for="(item, index) in haveProcess"
+          :key="index"
+          :title="item.status"
+        />
       </van-cell-group>
     </div>
   </div>
@@ -53,7 +57,7 @@ const newApply = computed(() => {
 
 const pendingProcess = computed(() => {
   return friendList.friendList
-    .filter(v => v.isView === true && v.friendType == 0)
+    .filter(v => v.isView === true && v.friendType != 1)
     .map(v => {
       return {
         username: v.friendId.userName,
@@ -66,6 +70,23 @@ const pendingProcess = computed(() => {
       }
     })
 })
+
+const haveProcess = computed(() => {
+  return friendList.friendList
+    .filter(v => v.isView === true && (v.friendType == 1 || v.friendType == 4))
+    .map(v => {
+      return {
+        username: v.friendId.userName,
+        message: v.addMessage[v.addMessage.length - 1].message,
+        time: v.addMessage[v.addMessage.length - 1].time,
+        isMe: v.userId === user.userInfo._id,
+        status: v.friendType == 1?'已通过':'已拒绝',
+        friendId: v.friendId._id,
+        avatar: v.friendId.avatar,
+      }
+    })
+})
+
 const router = useRouter()
 </script>
 

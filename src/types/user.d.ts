@@ -14,7 +14,7 @@ interface UserInfo {
 
 interface ChatList {
     userId: string,
-    friendId: string,
+    friendId: UserInfo,
     lastMessage: string,
     lastTime: string,
     messageNum: number,

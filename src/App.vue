@@ -14,7 +14,7 @@ const { user, friendList, chatList } = useStroe()
 
 // 获取初始信息
 if (user.token) {
-  if (!user.userInfo.userId) {
+  if (!user.userInfo._id) {
     user.getUserInfo()
   }
   if (!chatList.chatList.length) {
