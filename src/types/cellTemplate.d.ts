@@ -1,10 +1,11 @@
+import type { UserInfo } from './user';
+
 interface CellTemplateProps {
     message: string;
-    time: string;
+    time: string | number;
     badge: number;
-    username: string;
     avatar?: string;
-    friendId: string;
+    friendId: UserInfo;
 }
 
 export {

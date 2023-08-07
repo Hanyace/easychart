@@ -7,7 +7,7 @@ import { showToast } from 'vant'
 
 
 
-const { user } = useStore();
+const { user, clean } = useStore();
 
 const manager = new Manager("ws://localhost:3000", {
     reconnectionDelayMax: 10000,
@@ -48,9 +48,7 @@ socket.on('error', (err: {
 socket.on('disconnect_msg', ({ message }: { message: string }) => {
     user.changeStautes(0);
     console.log(message);
-    user.removeToken()
-    // user.removeToken()
-    // router.push('/login');
+    clean()
 });
 
 

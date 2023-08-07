@@ -4,9 +4,9 @@
       <van-cell
         @click="
           router.push({
-            name: 'chart',
+            name: 'Chart',
             params: {
-              id: friendId
+              id: friendId._id
             }
           })
         "
@@ -17,7 +17,7 @@
             <van-image round class="avatar" :src="avatar" />
             <!-- 用户信息 -->
             <div class="userinfo">
-              <div class="username">{{ username }}</div>
+              <div class="username">{{ friendId.userName }}</div>
               <div class="message ellipsis-1">{{ message }}</div>
             </div>
           </div>
@@ -25,9 +25,9 @@
         <template #value>
           <div class="right">
             <!-- 时间 -->
-            <div class="time">{{ time }}</div>
+            <div class="time">{{ formatFromNow(time) }}</div>
             <!-- 消息数 -->
-            <div v-if="badge > 0" class="badge">1</div>
+            <div v-if="badge > 0" class="badge">{{ badge }}</div>
           </div>
         </template>
       </van-cell>
@@ -37,7 +37,7 @@
           square
           style="height: 100%"
           type="danger"
-          @touchstart="del(friendId)"
+          @touchstart="del(friendId._id)"
           text="删除"
         />
       </template>
@@ -48,6 +48,7 @@
 <script lang="ts" setup>
 import type { CellTemplateProps } from '@/types/cellTemplate'
 import { useRouter } from 'vue-router'
+import { formatFromNow } from '@/hook/timeFilter'
 
 withDefaults(defineProps<CellTemplateProps>(), {
   badge: 0,
@@ -113,4 +114,3 @@ const del = (friendId: string) => {
   }
 }
 </style>
-@/types/cellTemplate

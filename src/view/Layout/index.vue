@@ -50,10 +50,11 @@
 </template>
 
 <script lang="ts" setup name="Layout">
-import { ref } from 'vue'
+import { ref, onActivated, onDeactivated } from 'vue'
 import { useRoute } from 'vue-router'
-import '@/socket'
+import socket from '@/socket'
 import useStore from '@/store'
+const { user } = useStore()
 const showSatusBoader = ref(false)
 const statusColor = ref('var(--online-color)')
 const statusText = ref('在线')
@@ -64,13 +65,13 @@ const statusList = ref([
     color: 'var(--online-color)'
   },
   {
-    text: '离开',
-    value: 2,
+    text: '离线',
+    value: 0,
     color: 'var(--leave-color)'
   }
 ])
 
-const { user } = useStore()
+
 const route = useRoute()
 
 const touchAvatar = (e: TouchEvent) => {
@@ -83,10 +84,33 @@ const touchAvatar = (e: TouchEvent) => {
 }
 
 const selectStatus = (item: any) => {
+  if(item.value === user.stautes) return
   console.log(item)
   statusColor.value = item.color
   statusText.value = item.text
+
+  if(item.value === 0) {
+    console.log('离线');
+    user.changeStautes(0)
+    socket.disconnect()
+  }else {
+    socket.connect()
+  }
 }
+
+onDeactivated(() => {
+  showSatusBoader.value = false
+})
+
+onActivated(() => {
+  if(user.stautes === 0) {
+    statusColor.value = 'var(--leave-color)'
+    statusText.value = '离线'
+  }else {
+    statusColor.value = 'var(--online-color)'
+    statusText.value = '在线'
+  }
+})
 </script>
 
 <style lang="less" scoped>

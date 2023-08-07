@@ -44,6 +44,7 @@ const login = async () => {
       await friendList.getFriendList()
       await friendList.getGroupList()
       await chatList.getChatList()
+      user.changeStautes(1)
       router.push('/chatList')
     }
   } catch (error: any) {

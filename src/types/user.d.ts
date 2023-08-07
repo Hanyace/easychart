@@ -20,7 +20,7 @@ interface ChatList {
     messageNum: number,
     messageType: number,
     isTop?: Boolean,
-    setTopTime?: string,
+    setTopTime?: string | null,
 }
 
 interface AddMessage {

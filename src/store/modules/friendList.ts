@@ -74,6 +74,12 @@ export const useFriendListStore = defineStore("friendManager", {
         },
         getFriendInfoById(friendId: string) {
           return  this.friendList.filter(item => item.friendId._id === friendId)[0]
+        },
+        clearFriendList() {
+            this.friendList = []
+        },
+        clearGroupList() {
+            this.groupList = []
         }
     },
 });

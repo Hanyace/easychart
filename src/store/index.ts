@@ -6,12 +6,19 @@ import { useFriendListStore } from "./modules/friendList";
 
 export const pinia = createPinia();
 
+
 export default () => {
     return {
         user: useUserStore(),
         chatList: useChatListStore(),
         temp: useTempStore(),
-        friendList: useFriendListStore()
+        friendList: useFriendListStore(),
+        clean() {
+            this.user.removeToken()
+            this.user.removeUserInfo()
+            this.chatList.clearChatList()
+            this.friendList.clearFriendList()
+        }
     }
 }
 

@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
     state: () => ({
         token: localRead('token') || '',
         userInfo: (localRead('userInfo') || {}) as UserInfo ,
-        stautes: 0, // 0: 未登录 1: 已登录
+        stautes: localRead('userStautes'), // 0: 未登录 1: 已登录
     }),
     getters: {
         statutesLabel: (state) => {
@@ -67,6 +67,7 @@ export const useUserStore = defineStore('user', {
         },
         changeStautes(stautes: number) {
             this.stautes = stautes
+            localSave('userStautes', stautes)
         }
     },
 })

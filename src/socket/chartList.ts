@@ -9,14 +9,19 @@ const {
 
 export const chatListListen = (socket: Socket) => {
     socket.on('chartList', (data: any) => {
+        console.log(data);
         const { friendId,
             lastMessage,
             messageType,
-            messageTime } = data
+            lastTime,
+            messageNum } = data
         chatList.changeListById(friendId, item => {
+            console.log(item);
+            
             item.lastMessage = lastMessage
             item.messageType = messageType
-            item.lastTime = messageTime
+            item.lastTime = lastTime
+            item.messageNum = messageNum
             return item
         })
     })

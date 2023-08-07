@@ -1,6 +1,7 @@
 import type { ChatList } from '@/types/user';
 import { defineStore } from 'pinia'
 import { user_chatList_api } from '@/api/user'
+import { CellTemplateProps } from '@/types/cellTemplate';
 
 export const useChatListStore = defineStore('chatList', {
     state: () => ({
@@ -9,7 +10,17 @@ export const useChatListStore = defineStore('chatList', {
     getters: {
         getLength: (state) => {
             return state.chatList.length
-        }
+        },
+        getCellList: (state) => {
+            return state.chatList.map((item: ChatList) => {
+              return {
+                message: item.lastMessage,
+                time: item.lastTime,
+                badge: item.messageNum,
+                friendId: item.friendId
+              } as CellTemplateProps
+            })
+          }
     },
     actions: {
         setChatList(chatList: ChatList[]) {
@@ -25,12 +36,18 @@ export const useChatListStore = defineStore('chatList', {
         },
         changeListById(friendId: string, cb: ((data: ChatList) => ChatList)) {
             const index = this.chatList.findIndex(v => v.friendId._id == friendId)
-            if (index) {
+            console.log(index);
+            
+            if (index != -1) {
                 this.chatList[index] =
                     cb(this.chatList[index])
-            }else {
+            } else {
                 console.error('changeListById:查询不到此friendId')
+                this.getChatList()
             }
+        },
+        clearChatList() {
+            this.chatList = []
         }
     }
 })
