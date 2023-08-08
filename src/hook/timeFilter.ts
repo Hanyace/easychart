@@ -8,16 +8,21 @@ dayjs.extend(relativeTime)
 export function formatDate(date: string | number) {
     if (date) {
         return dayjs(date).format('YYYY-MM-DD')
-    }else {
+    } else {
         return '---'
     }
 }
 
 // 格式化距今日期
 export function formatFromNow(date: string | number) {
+
     if (date) {
+        // 如果小于一天显示时分
+        if (dayjs().diff(dayjs(date), 'day') < 1) {
+            return dayjs(date).format('HH:mm')
+        }
         return dayjs(date).fromNow()
-    }else {
+    } else {
         return '---'
     }
 }

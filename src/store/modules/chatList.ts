@@ -13,14 +13,14 @@ export const useChatListStore = defineStore('chatList', {
         },
         getCellList: (state) => {
             return state.chatList.map((item: ChatList) => {
-              return {
-                message: item.lastMessage,
-                time: item.lastTime,
-                badge: item.messageNum,
-                friendId: item.friendId
-              } as CellTemplateProps
+                return {
+                    message: item.lastMessage,
+                    time: item.lastTime,
+                    badge: item.messageNum,
+                    friendId: item.friendId
+                } as CellTemplateProps
             })
-          }
+        }
     },
     actions: {
         setChatList(chatList: ChatList[]) {
@@ -37,13 +37,21 @@ export const useChatListStore = defineStore('chatList', {
         changeListById(friendId: string, cb: ((data: ChatList) => ChatList)) {
             const index = this.chatList.findIndex(v => v.friendId._id == friendId)
             console.log(index);
-            
+
             if (index != -1) {
                 this.chatList[index] =
                     cb(this.chatList[index])
             } else {
                 console.error('changeListById:查询不到此friendId')
                 this.getChatList()
+            }
+        },
+        removeListById(friendId: string) {
+            const index = this.chatList.findIndex(v => v.friendId._id == friendId)
+            if (index != -1) {
+                this.chatList.splice(index, 1)
+            } else {
+                console.error('removeListById:查询不到此friendId')
             }
         },
         clearChatList() {

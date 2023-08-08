@@ -16,7 +16,7 @@ interface ChatList {
     userId: string,
     friendId: UserInfo,
     lastMessage: string,
-    lastTime: string,
+    lastTime: string | number,
     messageNum: number,
     messageType: number,
     isTop?: Boolean,

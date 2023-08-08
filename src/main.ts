@@ -15,6 +15,9 @@ import { pinia } from './store'
 // 路由守卫
 import '@/router/interceptor'
 
+// indexedDB
+import '@/db'
+
 createApp(App)
 .use(router)
 .use(pinia)

@@ -3,12 +3,7 @@
     <van-swipe-cell>
       <van-cell
         @click="
-          router.push({
-            name: 'Chart',
-            params: {
-              id: friendId._id
-            }
-          })
+          readMessage(friendId._id)
         "
       >
         <template #title>
@@ -25,7 +20,7 @@
         <template #value>
           <div class="right">
             <!-- 时间 -->
-            <div class="time">{{ formatFromNow(time) }}</div>
+            <div class="time">{{ formatFromNow(+time) }}</div>
             <!-- 消息数 -->
             <div v-if="badge > 0" class="badge">{{ badge }}</div>
           </div>
@@ -49,6 +44,8 @@
 import type { CellTemplateProps } from '@/types/cellTemplate'
 import { useRouter } from 'vue-router'
 import { formatFromNow } from '@/hook/timeFilter'
+import socket from '@/socket'
+import useStore from '@/store'
 
 withDefaults(defineProps<CellTemplateProps>(), {
   badge: 0,
@@ -57,8 +54,18 @@ withDefaults(defineProps<CellTemplateProps>(), {
 
 const emit = defineEmits(['delChatItem'])
 const router = useRouter()
+const { user } = useStore()
 const del = (friendId: string) => {
   emit('delChatItem', friendId)
+}
+
+const readMessage = (friendId: string) => {
+  socket.emit('chatList', {
+    friendId,
+    userId: user.userInfo._id,
+    type: 1
+  })
+  router.push(`/chart/${friendId}`)
 }
 </script>
 

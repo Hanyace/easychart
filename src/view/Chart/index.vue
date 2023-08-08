@@ -6,7 +6,13 @@
     <van-nav-bar
       :title="friendInfo?.friendId.userName"
       left-arrow
-      @click-left="() => router.back()"
+      @click-left="() => router.push({
+        name: 'ChatList',
+        query: {
+          friendId: friendInfo!.friendId._id,
+          userId: user.userInfo._id
+        }
+      })"
     />
     <div class="chartContent" :style="{ marginBottom, paddingBottom: '10px' }">
       <ChartBubble
@@ -38,12 +44,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onActivated } from 'vue'
 import ChartBubble from './component/ChartBubble.vue'
 import useStore from '@/store'
 import socket from '@/socket'
 import { useRoute, useRouter } from 'vue-router'
 import { Friend } from '@/types/user'
+import { getRecentChatMessages, addChatMessage } from '@/db'
 
 const { user, friendList } = useStore()
 const route = useRoute()
@@ -53,6 +60,7 @@ const message = ref('')
 const chartFooter = ref<Element | null>(null)
 const marginBottom = ref('')
 const friendInfo = ref<Friend>()
+const minTime = ref<undefined | number>()
 friendInfo.value = friendList.getFriendInfoById(route.params.id as string)
 
 const messageList = ref<
@@ -63,20 +71,7 @@ const messageList = ref<
     status?: number
     sendTime?: number
   }[]
->([
-  {
-    messageDirection: 'left',
-    message: 'Hello',
-    avatar: 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
-    status: 0
-  },
-  {
-    messageDirection: 'right',
-    message: 'Hi',
-    avatar: 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
-    status: 0
-  }
-])
+>([])
 
 const onResize = () => {
   const value = `${chartFooter.value!.clientHeight}px`
@@ -114,6 +109,13 @@ const singleChart = () => {
         message: data.message
       })
     }
+    addChatMessage({
+      userId: data.friendId,
+      friendId: user.userInfo._id,
+      message: data.message,
+      time: data.messageTime,
+      type: data.messageType || 0
+    })
   })
 
   // 发送是否成功
@@ -125,13 +127,51 @@ const singleChart = () => {
     } else {
       messageList.value.find(v => v.sendTime == data.sendTime)!.status = 0
     }
+    addChatMessage({
+      userId: user.userInfo._id,
+      friendId: data.friendId,
+      message: data.message,
+      time: data.messageTime,
+      type: data.messageType || 0
+    })
   })
 }
 
-onMounted(() => {
+// 从idb获取聊天记录
+const getMsgList = async () => {
+  const { messages: msgList1 } = await getRecentChatMessages(user.userInfo._id)
+  const { messages: msgList2 } = await getRecentChatMessages(
+    route.params.id as string
+  )
+  console.log(msgList1);
+  
+  // 组合消息
+  const res = msgList1.concat(msgList2)
+  res.sort((a, b) => a!.time - b!.time)
+  console.log(res);
+  
+  messageList.value = res.map(v => {
+    return {
+      messageDirection: v!.userId == user.userInfo._id ? 'right' : 'left',
+      message: v!.message,
+      sendTime: v!.time,
+      avatar:
+        v!.userId == user.userInfo._id
+          ? user.userInfo.avatar
+          : friendInfo.value!.friendId.avatar,
+      status: 0
+    }
+  })
+  minTime.value = res[0]?res[0].time : undefined
+}
+
+onMounted(async () => {
   onResize()
   singleChart()
+ await getMsgList()
 })
+
+// onActivated()
 </script>
 
 <style lang="less" scoped>

@@ -22,12 +22,14 @@
 <script lang="ts" setup>
 import CellTemplate from './component/cellTemplate.vue'
 import type { CellTemplateProps } from '@/types/cellTemplate'
-import { ref, onBeforeMount } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onBeforeMount, onActivated } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import useStore from '@/store'
+import socket from '@/socket'
 
 const messageList = ref<CellTemplateProps[]>([])
 const router = useRouter()
+const route = useRoute()
 const { chatList } = useStore()
 
 const delChatItem = (index: number) => {
@@ -40,6 +42,16 @@ const touchSearch = () => {
 
 onBeforeMount( async() => {
   await chatList.getChatList()
+})
+
+onActivated( ()=> {
+  // 从聊天页面返回时，重新获取聊天列表
+  if (!route.query.friendId) return
+  socket.emit('chatList', {
+    userId: route.query.userId,
+    type: 1,
+    friendId: route.query.friendId
+  })
 })
 </script>
 
