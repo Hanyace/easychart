@@ -14,7 +14,7 @@
         }
       })"
     />
-    <div class="chartContent" :style="{ marginBottom, paddingBottom: '10px' }">
+    <div class="chartContent" ref="chartContent" :style="{ marginBottom, paddingBottom: '10px' }">
       <ChartBubble
         v-for="(item, index) in messageList"
         :key="index"
@@ -44,13 +44,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onActivated } from 'vue'
+import { ref, onMounted, onActivated, nextTick } from 'vue'
 import ChartBubble from './component/ChartBubble.vue'
 import useStore from '@/store'
 import socket from '@/socket'
 import { useRoute, useRouter } from 'vue-router'
 import { Friend } from '@/types/user'
-import { getRecentChatMessages, addChatMessage } from '@/db'
+import { getRecentChatMessages, addChatMessage, Chat } from '@/db'
 
 const { user, friendList } = useStore()
 const route = useRoute()
@@ -58,9 +58,11 @@ const router = useRouter()
 
 const message = ref('')
 const chartFooter = ref<Element | null>(null)
+const chartContent = ref<Element | null>(null)
 const marginBottom = ref('')
 const friendInfo = ref<Friend>()
 const minTime = ref<undefined | number>()
+const scollTop = ref(0)
 friendInfo.value = friendList.getFriendInfoById(route.params.id as string)
 
 const messageList = ref<
@@ -80,7 +82,7 @@ const onResize = () => {
 }
 
 // 发送消息
-const sendMsg = () => {
+const sendMsg = async () => {
   const sendTime = new Date().getTime()
   socket.emit('singleChart', {
     userId: user.userInfo._id,
@@ -96,6 +98,8 @@ const sendMsg = () => {
     status: 1
   })
   message.value = ''
+  await nextTick()
+  chartContent.value!.scrollTop = chartContent.value!.scrollHeight
 }
 
 // 接收消息
@@ -121,7 +125,7 @@ const singleChart = () => {
   // 发送是否成功
   socket.on('singleChartRes', (data: any) => {
     console.log('singleChartRes')
-    console.log(data)
+    // console.log(data)
     if (data.fail) {
       messageList.value.find(v => v.sendTime == data.sendTime)!.status = 2
     } else {
@@ -139,17 +143,18 @@ const singleChart = () => {
 
 // 从idb获取聊天记录
 const getMsgList = async () => {
-  const { messages: msgList1 } = await getRecentChatMessages(user.userInfo._id)
-  const { messages: msgList2 } = await getRecentChatMessages(
+  const msgList1 = (await getRecentChatMessages(
+    user.userInfo._id,
     route.params.id as string
-  )
-  console.log(msgList1);
-  
+  )) as Chat[]
+  const msgList2 = (await getRecentChatMessages(
+    route.params.id as string,
+    user.userInfo._id
+  )) as Chat[]
   // 组合消息
   const res = msgList1.concat(msgList2)
   res.sort((a, b) => a!.time - b!.time)
-  console.log(res);
-  
+
   messageList.value = res.map(v => {
     return {
       messageDirection: v!.userId == user.userInfo._id ? 'right' : 'left',
@@ -162,16 +167,22 @@ const getMsgList = async () => {
       status: 0
     }
   })
-  minTime.value = res[0]?res[0].time : undefined
+  minTime.value = res[0] ? res[0].time : undefined
 }
 
 onMounted(async () => {
   onResize()
   singleChart()
- await getMsgList()
+  await getMsgList()
+  chartContent.value!.scrollTop = chartContent.value!.scrollHeight
+  chartContent.value!.addEventListener('scroll', () => {
+    scollTop.value = chartContent.value!.scrollTop
+  })
 })
 
-// onActivated()
+onActivated(() => {
+  chartContent.value!.scrollTop = scollTop.value
+})
 </script>
 
 <style lang="less" scoped>

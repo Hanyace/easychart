@@ -8,6 +8,7 @@
             :actions="statusList"
             position="top-start"
             @select="selectStatus"
+            trigger="manual"
           >
             <template #reference>
               <!-- avatar -->
@@ -17,7 +18,6 @@
                 src="https://img.yzcdn.cn/vant/cat.jpeg"
                 :style="{ borderColor: statusColor }"
                 @touchstart="touchAvatar"
-                @click="touchAvatar"
               />
             </template>
           </van-popover>

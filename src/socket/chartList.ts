@@ -13,7 +13,6 @@ const {
 
 export const chatListListen = (socket: Socket) => {
     socket.on('chartList', (data: any) => {
-        console.log(data);
         const { friendId,
             lastMessage,
             messageType,
